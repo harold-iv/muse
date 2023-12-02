@@ -1,0 +1,25 @@
+name: restart
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '15 15 * * 1-5'
+
+jobs:
+  restart:
+    environment: production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ssh remote restart
+        uses: appleboy/ssh-action@55dabf81b49d4120609345970c91507e2d734799 # pin@v1.0.0
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        with:
+          host: ${{ vars.SSH_HOST }}
+          port: ${{ vars.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: DISCORD_TOKEN
+          script_stop: true
+          script: cd ~/evobot && docker compose restart
