@@ -1,0 +1,42 @@
+name: branch-deploy
+
+on:
+  issue_comment:
+    types: [created]
+
+# Permissions needed for reacting and adding comments for IssueOps commands
+permissions:
+  pull-requests: write
+  deployments: write
+  contents: write
+  checks: read
+
+jobs:
+  deploy:
+    if: ${{ github.event.issue.pull_request }} # only run on pull request comments
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: github/branch-deploy@v8.1.2
+        id: branch-deploy
+        with:
+          admins: GrantBirki
+          environment_targets: production
+          sticky_locks: "true"
+
+      - name: checkout
+        if: ${{ steps.branch-deploy.outputs.continue == 'true' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.branch-deploy.outputs.ref }}
+
+      - name: ssh remote deploy
+        if: ${{ steps.branch-deploy.outputs.continue == 'true' && steps.branch-deploy.outputs.noop != 'true' }}
+        uses: appleboy/ssh-action@55dabf81b49d4120609345970c91507e2d734799 # pin@v1.0.0
+        with:
+          host: ${{ vars.SSH_HOST }}
+          port: ${{ vars.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script_stop: true
+          script: ~/evobot/script/deploy -r="${{ steps.branch-deploy.outputs.ref }}" -f="${{ steps.branch-deploy.outputs.fork_checkout }}" -d="evobot" -n="${{ steps.branch-deploy.outputs.fork_full_name }}"
