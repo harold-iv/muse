@@ -66,6 +66,6 @@ echo "[-] Killing old docker processes"
 docker compose down -t 1
 
 echo "[i] Building docker containers"
-docker compose --env-file ./.env -f docker-compose.yml up -d --build
+docker compose -f docker-compose.yml up -d --build
 
 echo "[+] Containers are now running!"

@@ -33,10 +33,13 @@ jobs:
       - name: ssh remote deploy
         if: ${{ steps.branch-deploy.outputs.continue == 'true' && steps.branch-deploy.outputs.noop != 'true' }}
         uses: appleboy/ssh-action@55dabf81b49d4120609345970c91507e2d734799 # pin@v1.0.0
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         with:
           host: ${{ vars.SSH_HOST }}
           port: ${{ vars.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
+          envs: DISCORD_TOKEN
           script_stop: true
           script: ~/evobot/script/deploy -r="${{ steps.branch-deploy.outputs.ref }}" -f="${{ steps.branch-deploy.outputs.fork_checkout }}" -d="evobot" -n="${{ steps.branch-deploy.outputs.fork_full_name }}"
