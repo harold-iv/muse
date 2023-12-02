@@ -1,0 +1,12 @@
+services:
+  evobot:
+    image: eritislami/evobot:2.8.1
+    container_name: evobot
+    restart: unless-stopped
+    environment:
+      TOKEN:
+      MAX_PLAYLIST_SIZE: 10
+      PRUNING: false
+      LOCALE: "en"
+      DEFAULT_VOLUME: 100
+      STAY_TIME: 30
