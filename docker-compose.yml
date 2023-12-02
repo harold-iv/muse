@@ -3,8 +3,10 @@ services:
     image: eritislami/evobot:2.8.1
     container_name: evobot
     restart: unless-stopped
+    env_file:
+      - ./.env
     environment:
-      TOKEN:
+      TOKEN: ${DISCORD_TOKEN}
       MAX_PLAYLIST_SIZE: 10
       PRUNING: false
       LOCALE: "en"
