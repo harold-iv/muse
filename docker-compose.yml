@@ -1,12 +1,16 @@
 services:
-  evobot:
-    image: eritislami/evobot:2.8.1
-    container_name: evobot
+  muse:
+    image: codetheweb/muse:2.4.3
+    container_name: muse
     restart: unless-stopped
     environment:
-      TOKEN: ${DISCORD_TOKEN}
-      MAX_PLAYLIST_SIZE: 10
-      PRUNING: false
-      LOCALE: "en"
-      DEFAULT_VOLUME: 100
-      STAY_TIME: 30
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      YOUTUBE_API_KEY: ${YOUTUBE_API_KEY}
+      SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID}
+      SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET}
+      BOT_STATUS: online
+      BOT_ACTIVITY_TYPE: PLAYING
+      BOT_ACTIVITY: "music for the BEANS"
+      CACHE_LIMIT: 2GB
+    volumes:
+      - ./muse:/data
