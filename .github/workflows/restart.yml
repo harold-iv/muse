@@ -25,4 +25,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           envs: DISCORD_TOKEN,YOUTUBE_API_KEY,SPOTIFY_CLIENT_ID,SPOTIFY_CLIENT_SECRET
           script_stop: true
-          script: cd ~/muse && docker compose restart
+          script: cd ~/muse && docker compose down -t 1 && docker compose -f docker-compose.yml up -d --build
