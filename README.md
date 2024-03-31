@@ -33,6 +33,9 @@ Here is a table of all commands that are available to use:
 | `/shuffle` | Shuffle the current queue |
 | `/skip` | Skip the next song or songs depending on your inputs |
 | `/unskip` | Go back in the queue by one song |
+| `/volume` | Change the volume of the bot |
+| `/config set-default-volume` | Set the default volume of the bot | 
+| `/config set-auto-announce-next-song True` | Set *auto-announce* on new tracks in your voice channel during the transition to a new track |
 
 ## Features ⭐
 
