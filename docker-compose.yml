@@ -1,6 +1,6 @@
 services:
   muse:
-    image: codetheweb/muse:2.5.0
+    image: codetheweb/muse:2.7.1
     container_name: muse
     restart: unless-stopped
     environment:
